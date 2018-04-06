@@ -13,7 +13,7 @@ struct SinhVien
 	int khoa1;
 	wchar_t ngaySinh[11];
 	wchar_t anh[20];
-	wchar_t moTaBanThan[100];
+	wchar_t moTaBanThan[1000];
 	wchar_t** soThich;
 
 };
@@ -73,14 +73,52 @@ wchar_t** makeArray(int size)
 	wchar_t** temp = (wchar_t**)malloc(size * sizeof(wchar_t*));
 	for (int i = 0; i < size; i++)
 	{
-		*(temp + i) = (wchar_t*)malloc(20 * sizeof(wchar_t));
+		*(temp + i) = (wchar_t*)malloc(500 * sizeof(wchar_t));
 	}
 	return temp;
+}
+void makeLikeList(SinhVien* mang, int number, wchar_t* filename, wchar_t key, int* like)
+{
+	wchar_t test;
+	wchar_t dummy[1000];
+	int size = 0, j = 0;
+	FILE* pointer = _wfopen(L"data.csv", L"r,ccs=UTF-16LE");
+	if (pointer == NULL)
+	{
+		printf("Mo tap tin that bai\n");
+		system("pause");
+		exit(0);
+	}
+	for (int i = 0; i < number; i++)
+	{
+		j = 0;
+		while (j < 6)
+		{
+			test = fgetwc(pointer);
+			if (test == key)
+				j++;
+		}
+		test = fgetwc(pointer);
+		while (test != key && test != '\n' && test != WEOF)
+			test = fgetwc(pointer);
+		if (test != '\n' && test != WEOF)//tuc la co so thich
+		{
+			size = numOfLike(pointer, key);
+			like[i] = size;
+			if (size != 0)
+			{
+				mang[i].soThich = makeArray(size);
+			}
+		}
+		else
+			like[i] = 0;
+	}
+	fclose(pointer);
 }
 wchar_t* getToKen(FILE* pointer, wchar_t key)
 {
 	wchar_t run;
-	wchar_t temp[100];
+	wchar_t temp[1000];
 	int i = 0;
 	run = fgetwc(pointer);
 	while (run != WEOF)
@@ -101,43 +139,6 @@ wchar_t* getToKen(FILE* pointer, wchar_t key)
 	}
 	fclose(pointer);
 	return NULL;
-}
-void makeLikeList(SinhVien* mang, int number, wchar_t* filename, wchar_t key, int* like)
-{
-	wchar_t test;
-	wchar_t dummy[50];
-	int size = 0, j = 0;
-	FILE* pointer = _wfopen(L"data.csv", L"r,ccs=UTF-16LE");
-	if (pointer == NULL)
-	{
-		printf("Mo tap tin that bai\n");
-		system("pause");
-		exit(0);
-	}
-	for (int i = 0; i < number; i++)
-	{
-		j = 0;
-		while (j < 7)
-		{
-			wcscpy(dummy, getToKen(pointer, key));
-			j++;
-		}
-		test = fgetwc(pointer);
-		if (test != '\n' && test != WEOF)//tuc la co so thich
-		{
-			size = numOfLike(pointer, key);
-			like[i] = size;
-			if (size != 0)
-			{
-				mang[i].soThich = makeArray(size);
-			}
-
-		}
-		else
-			like[i] = 0;
-	}
-	fclose(pointer);
-
 }
 void getInfo(SinhVien* mang, int number, wchar_t* filename, wchar_t key, int* like)
 {
