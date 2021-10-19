@@ -1,4 +1,4 @@
-# Các tập tin: 
+### Các tập tin: 
   - 1712872:(xem mã nguồn của chương trình) 
 	+ CompleteSource: mã nguồn hoàn chỉnh của đồ án,đã được tổ chức đầy đủ
 
@@ -10,7 +10,7 @@
 
   - data + images + css: các tài nguyên mà chương trình sử dụng
 
-# Cách tổ chức dữ liệu cho chương trình (khi giảng viên muốn đem code về máy để kiểm tra)
+### Cách tổ chức dữ liệu cho chương trình (khi giảng viên muốn đem code về máy để kiểm tra)
    - Project:
 
       + Source.cpp
